@@ -19,5 +19,5 @@ logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 
 logger.info("starting")
-result = retry.retry(fail_randomly, ex_type=ZeroDivisionError, limit=20, logger=logger)
+result = retry.retry(fail_randomly, expected_ex_type=ZeroDivisionError, limit=20, logger=logger)
 logger.info("result is: %s", result)

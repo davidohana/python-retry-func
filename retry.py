@@ -1,7 +1,7 @@
 import time
 
 
-def retry(func, ex_type=Exception, limit=0, wait_ms=100, wait_increase_ratio=2, logger=None):
+def retry(func, expected_ex_type=Exception, limit=0, wait_ms=100, wait_increase_ratio=2, logger=None):
     """
     Retry a function invocation until no exception occurs
     :param func: function to invoke
@@ -13,12 +13,13 @@ def retry(func, ex_type=Exception, limit=0, wait_ms=100, wait_increase_ratio=2, 
     :return: result of first successful invocation
     :raises: last invocation exception if attempts exhausted or exception is not an instance of ex_type
     """
+
     attempt = 1
     while True:
         try:
             return func()
         except Exception as ex:
-            if not isinstance(ex, ex_type):
+            if not isinstance(ex, expected_ex_type):
                 raise ex
             if 0 < limit <= attempt:
                 if logger:
